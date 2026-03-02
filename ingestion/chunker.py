@@ -4,7 +4,7 @@ from typing import List
 from dataclasses import dataclass
 import uuid
 import tiktoken
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from ingestion.pdf_parser import Page
 
 

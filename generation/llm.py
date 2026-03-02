@@ -1,34 +1,21 @@
-"""Groq LLM API integration"""
+"""LLM utilities for RAG"""
 
-from typing import Tuple, List
+from typing import List
+import logging
 
-
-class GroqTimeoutError(Exception):
-    """Raised when Groq API call exceeds timeout"""
-    pass
+logger = logging.getLogger(__name__)
 
 
-class GroqRateLimitError(Exception):
-    """Raised when Groq rate limit is hit"""
-    pass
-
-
-class GroqAuthError(Exception):
-    """Raised when API key is invalid"""
-    pass
-
-
-def generate_answer(question: str, retrieved_chunks: List) -> Tuple[str, float]:
-    """
-    Generate answer from question and retrieved context via Groq API.
+def format_context(retrieved_chunks: List) -> str:
+    """Format retrieved chunks into context string"""
+    if not retrieved_chunks:
+        return ""
     
-    Returns:
-        Tuple of (answer_text, latency_seconds)
-        
-    Raises:
-        GroqTimeoutError: If API call exceeds 15 seconds
-        GroqRateLimitError: If rate limit is hit
-        GroqAuthError: If API key is invalid
-    """
-    # TODO: Implement LLM call
-    pass
+    context_parts = []
+    for i, retrieved in enumerate(retrieved_chunks, 1):
+        chunk = retrieved.chunk
+        context_parts.append(
+            f"[CHUNK {i}] (Source: {chunk.source_file}, Page {chunk.page_number})\n{chunk.text}"
+        )
+    
+    return "\n\n".join(context_parts)

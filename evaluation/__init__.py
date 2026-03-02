@@ -1,1 +1,1 @@
-"""Evaluation: RAGAS metrics and dashboard"""
+"""Evaluation: LangSmith tracing and observability"""
